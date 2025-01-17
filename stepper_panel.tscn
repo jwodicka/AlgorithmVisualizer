@@ -1,0 +1,45 @@
+[gd_scene load_steps=3 format=3 uid="uid://dan1tsf0stkx7"]
+
+[ext_resource type="Theme" uid="uid://ddadwcv88c2qp" path="res://panel_theme.tres" id="1_0dum8"]
+[ext_resource type="Script" path="res://stepper_panel.gd" id="2_kon8j"]
+
+[node name="StepperPanel" type="PanelContainer"]
+theme = ExtResource("1_0dum8")
+script = ExtResource("2_kon8j")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("1_0dum8")
+theme_type_variation = &"HeaderSmall"
+text = "Stepper"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer"]
+layout_mode = 2
+
+[node name="Rewind" type="Button" parent="VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+disabled = true
+text = "<<"
+
+[node name="Back" type="Button" parent="VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+disabled = true
+text = "<"
+
+[node name="Forward" type="Button" parent="VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = ">"
+
+[node name="FastForward" type="Button" parent="VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+disabled = true
+text = ">>"
+
+[connection signal="pressed" from="VBoxContainer/HBoxContainer/Forward" to="." method="_on_forward_pressed"]

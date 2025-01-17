@@ -1,0 +1,132 @@
+[gd_scene load_steps=6 format=3 uid="uid://bbqlx27aklq5c"]
+
+[ext_resource type="Script" path="res://interface.gd" id="1_05fcc"]
+[ext_resource type="PackedScene" uid="uid://bt7bxbeescpx8" path="res://rng_initial_state_panel.tscn" id="2_ayns7"]
+[ext_resource type="Theme" uid="uid://ddadwcv88c2qp" path="res://panel_theme.tres" id="3_rcblh"]
+[ext_resource type="Script" path="res://rng_visualizer.gd" id="4_85kr6"]
+[ext_resource type="Script" path="res://stepper_panel.gd" id="4_m04da"]
+
+[node name="Interface" type="Control"]
+layout_mode = 3
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("1_05fcc")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="."]
+layout_mode = 1
+anchors_preset = 15
+anchor_right = 1.0
+anchor_bottom = 1.0
+grow_horizontal = 2
+grow_vertical = 2
+
+[node name="MenuBar" type="MenuBar" parent="VBoxContainer"]
+layout_mode = 2
+flat = true
+
+[node name="File" type="PopupMenu" parent="VBoxContainer/MenuBar"]
+
+[node name="HSplitContainer" type="HSplitContainer" parent="VBoxContainer"]
+layout_mode = 2
+size_flags_vertical = 3
+split_offset = 200
+
+[node name="ControlPanel" type="PanelContainer" parent="VBoxContainer/HSplitContainer"]
+layout_mode = 2
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/HSplitContainer/ControlPanel"]
+layout_mode = 2
+
+[node name="RNGInitialStatePanel" parent="VBoxContainer/HSplitContainer/ControlPanel/VBoxContainer" instance=ExtResource("2_ayns7")]
+unique_name_in_owner = true
+layout_mode = 2
+initial_seed = 1000
+
+[node name="StepperPanel" type="PanelContainer" parent="VBoxContainer/HSplitContainer/ControlPanel/VBoxContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme = ExtResource("3_rcblh")
+script = ExtResource("4_m04da")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/HSplitContainer/ControlPanel/VBoxContainer/StepperPanel"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/HSplitContainer/ControlPanel/VBoxContainer/StepperPanel/VBoxContainer"]
+layout_mode = 2
+theme = ExtResource("3_rcblh")
+theme_type_variation = &"HeaderSmall"
+text = "Stepper"
+
+[node name="HBoxContainer" type="HBoxContainer" parent="VBoxContainer/HSplitContainer/ControlPanel/VBoxContainer/StepperPanel/VBoxContainer"]
+layout_mode = 2
+
+[node name="Rewind" type="Button" parent="VBoxContainer/HSplitContainer/ControlPanel/VBoxContainer/StepperPanel/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+disabled = true
+text = "<<"
+
+[node name="Back" type="Button" parent="VBoxContainer/HSplitContainer/ControlPanel/VBoxContainer/StepperPanel/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+disabled = true
+text = "<"
+
+[node name="Forward" type="Button" parent="VBoxContainer/HSplitContainer/ControlPanel/VBoxContainer/StepperPanel/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+text = ">"
+
+[node name="FastForward" type="Button" parent="VBoxContainer/HSplitContainer/ControlPanel/VBoxContainer/StepperPanel/VBoxContainer/HBoxContainer"]
+layout_mode = 2
+size_flags_horizontal = 3
+disabled = true
+text = ">>"
+
+[node name="StatePanel" type="PanelContainer" parent="VBoxContainer/HSplitContainer"]
+layout_mode = 2
+
+[node name="HFlowContainer" type="HFlowContainer" parent="VBoxContainer/HSplitContainer/StatePanel"]
+layout_mode = 2
+
+[node name="RNGVisualizer" type="PanelContainer" parent="VBoxContainer/HSplitContainer/StatePanel/HFlowContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+theme = ExtResource("3_rcblh")
+script = ExtResource("4_85kr6")
+
+[node name="VBoxContainer" type="VBoxContainer" parent="VBoxContainer/HSplitContainer/StatePanel/HFlowContainer/RNGVisualizer"]
+layout_mode = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/HSplitContainer/StatePanel/HFlowContainer/RNGVisualizer/VBoxContainer"]
+layout_mode = 2
+theme_type_variation = &"HeaderSmall"
+text = "RNG"
+
+[node name="GridContainer" type="GridContainer" parent="VBoxContainer/HSplitContainer/StatePanel/HFlowContainer/RNGVisualizer/VBoxContainer"]
+layout_mode = 2
+columns = 2
+
+[node name="Label" type="Label" parent="VBoxContainer/HSplitContainer/StatePanel/HFlowContainer/RNGVisualizer/VBoxContainer/GridContainer"]
+layout_mode = 2
+text = "Seed"
+
+[node name="SeedValue" type="Label" parent="VBoxContainer/HSplitContainer/StatePanel/HFlowContainer/RNGVisualizer/VBoxContainer/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "xxxxxxxxxxxxx"
+
+[node name="Label3" type="Label" parent="VBoxContainer/HSplitContainer/StatePanel/HFlowContainer/RNGVisualizer/VBoxContainer/GridContainer"]
+layout_mode = 2
+text = "State"
+
+[node name="StateValue" type="Label" parent="VBoxContainer/HSplitContainer/StatePanel/HFlowContainer/RNGVisualizer/VBoxContainer/GridContainer"]
+unique_name_in_owner = true
+layout_mode = 2
+text = "xxxxxxxxxxxxx"
+
+[connection signal="stepped_forward" from="VBoxContainer/HSplitContainer/ControlPanel/VBoxContainer/StepperPanel" to="." method="_on_stepper_panel_stepped_forward"]
+[connection signal="pressed" from="VBoxContainer/HSplitContainer/ControlPanel/VBoxContainer/StepperPanel/VBoxContainer/HBoxContainer/Forward" to="VBoxContainer/HSplitContainer/ControlPanel/VBoxContainer/StepperPanel" method="_on_forward_pressed"]
